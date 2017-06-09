@@ -1,7 +1,7 @@
 package APIMessenger.Response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/* En esta clase no se muestra el passowrd del usuario*/
+/* En esta clase no se muestra el password del usuario*/
 
 public class UserWrapper {
     @JsonProperty private String name;

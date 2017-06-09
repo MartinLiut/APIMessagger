@@ -1,0 +1,12 @@
+APIMessenger\Model\User.class
+APIMessenger\DAO\UserDAO.class
+APIMessenger\Services\UserService.class
+APIMessenger\DAO\AbstractDAO.class
+APIMessenger\App.class
+APIMessenger\Response\UserWrapper.class
+APIMessenger\Controller\UserController.class
+APIMessenger\Model\Message.class
+APIMessenger\Model\Inbox.class
+APIMessenger\Converter\UserConverter.class
+APIMessenger\Converter\ConverterInterface.class
+APIMessenger\Request\UserRequest.class

@@ -1,16 +1,14 @@
 package APIMessenger.Controller;
+import APIMessenger.Converter.ConverterInterface;
 import APIMessenger.Model.User;
+import APIMessenger.Request.UserRequest;
 import APIMessenger.Response.UserWrapper;
 import APIMessenger.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +17,14 @@ import java.util.List;
         value = "/api",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
+
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    //@Qualifier("UserConverter")
+    ConverterInterface userConverter;
 
     @RequestMapping("/users/{id}")
     public @ResponseBody ResponseEntity<UserWrapper> getById(@PathVariable("id") int id){
@@ -38,9 +41,37 @@ public class UserController {
     public @ResponseBody ResponseEntity<List<UserWrapper>> getAll(){
         List<User> users = userService.getAll();
         if(users.size() > 0){
-            return new ResponseEntity<List<UserWrapper>>(users, HttpStatus.OK);
+            return new ResponseEntity<List<UserWrapper>>(userConverter.listConverter(users), HttpStatus.OK);
         }
         else
             return new ResponseEntity<List<UserWrapper>>(HttpStatus.NOT_FOUND);
     }
+
+    @RequestMapping(value = "/users/", method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity addUser (@RequestBody UserRequest u){
+        try{
+            if(u.getPassword().equals(u.getPassword_confirm())) {
+                userService.newUser(u.getName(), u.getSurname(), u.getAddress(), u.getTelephone(), u.getCity(), u.getProvince(), u.getCountry(), u.getPassword());
+                return new ResponseEntity(HttpStatus.CREATED);
+            }
+            else {
+                return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
+        catch(Exception e){
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable("id") int id){
+        try{
+            userService.deleteUser(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
