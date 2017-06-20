@@ -1,5 +1,5 @@
 package APIMessenger.Services;
-import APIMessenger.DAO.UserDAO_memory;
+import APIMessenger.DAO.UserDAO;
 import APIMessenger.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,29 +10,29 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    UserDAO_memory userDAOMemory;
+    /*UserDAO_memory userDAO;*/UserDAO userDAO;
 
-    /*@Autowired
-    public UserService(UserDAO_memory userDAOMemory){
-        this.userDAOMemory = userDAOMemory;
-    }*/
 
     public UserService(){}
 
     public List<User> getAll(){
-        return userDAOMemory.getAll();
+        return userDAO.getAll();
     }
 
     public User getById(int id){
-        return (User) userDAOMemory.getById(id);
+        return (User) userDAO.getById(id);
     }
 
     public void newUser(String name, String surname, String address, String telephone,  String city, String province, String country, String password){
         User user = new User(name, surname, address, telephone, city, province, country, password);
-        this.userDAOMemory.save(user);
+        this.userDAO.save(user);
     }
 
     public void deleteUser(int id){
-        this.userDAOMemory.delete(id);
+        this.userDAO.delete(id);
+    }
+
+    public User login(String name, String password){
+        return (User)this.userDAO.login(name, password);
     }
 }

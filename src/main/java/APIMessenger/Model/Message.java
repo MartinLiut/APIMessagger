@@ -3,13 +3,19 @@ import java.util.Date;
 
 public class Message {
     private int id;
-    private int idUsuario;
-    private String text;
+    private int idSender;
+    private int idReceiver;
+    private String issue;
+    private String message;
     private Date date;
     private boolean deleted;
 
-    public Message(){
-        this.date = new Date();
+    public Message(int idSender, int idReceiver, String issue, String message, Date date){
+        this.idSender = idSender;
+        this.idReceiver = idReceiver;
+        this.issue = issue;
+        this.message = message;
+        this.date = date;
         this.setDeleted(false);
     }
 
@@ -19,22 +25,6 @@ public class Message {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public Date getDate() {
@@ -51,5 +41,37 @@ public class Message {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public int getIdSender() {
+        return idSender;
+    }
+
+    public void setIdSender(int idSender) {
+        this.idSender = idSender;
+    }
+
+    public int getIdReceiver() {
+        return idReceiver;
+    }
+
+    public void setIdReceiver(int idReceiver) {
+        this.idReceiver = idReceiver;
+    }
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

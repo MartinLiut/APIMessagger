@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDAO_memory extends AbstractDAO {
+public class UserDAO_memory {
     List<User> users;
 
     public UserDAO_memory(){
@@ -14,12 +14,10 @@ public class UserDAO_memory extends AbstractDAO {
         this.save(new User("Federico", "Gayo", "Por la costa :p", "484333", "M.D.P.", "BS.AS.", "ARG.", "2134"));
     }
 
-    @Override
     public List<User> getAll() {
         return this.users;
     }
 
-    @Override
     public User getById(int id) {
         for(User user : users){
             if(user.getId() == id)
@@ -28,12 +26,10 @@ public class UserDAO_memory extends AbstractDAO {
         return null;
     }
 
-    @Override
     public void save(Object user) {
         this.users.add((User)user);
     }
 
-    @Override
     public void delete(int id) {
         this.users.remove(id);
     }
