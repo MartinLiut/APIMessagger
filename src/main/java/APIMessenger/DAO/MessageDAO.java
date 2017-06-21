@@ -20,12 +20,11 @@ public class MessageDAO extends DAO{
         return null;
     }
 
-    public List getAllByUser(User user){
+    public List getAllByUser(String userName){
         try {
-            String q = "SELECT * FROM MESSAGES WHERE id_sender = ? OR id_receiver = ? AND deleted = 0";
+            String q = "SELECT * FROM MESSAGES M JOIN USERS U ON M.id_sender = U.id INNER JOIN USERS U2 ON M.id_receiver = U2.id WHERE U.name = ? AND M.deleted = 0";
             PreparedStatement st = this.connection.prepareStatement(q);
-            st.setInt(1, user.getId());
-            st.setInt(2, user.getId());
+            st.setString(1, userName);
             ResultSet rs = st.executeQuery();
             List<Message> messages = new ArrayList<Message>();
             while(rs.next()){

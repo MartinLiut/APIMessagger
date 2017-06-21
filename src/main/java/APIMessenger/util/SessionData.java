@@ -14,6 +14,7 @@ public class SessionData {
 
     final static Logger logger = Logger.getLogger(SessionData.class);
     HashMap<String, AuthenticationData> sessionData;
+    private User user;
 
     @Value("${session.expiration}")
     int expirationTime;
@@ -27,11 +28,15 @@ public class SessionData {
         String sessionId = UUID.randomUUID().toString();
         AuthenticationData aData = new AuthenticationData();
         aData.setUser(user);
+        this.user = user;
         aData.setLastAction(new DateTime());
         this.sessionData.put(sessionId, aData);
         return sessionId;
     }
 
+    public User getUser(){
+        return this.user;
+    }
 
     public void removeSession(String sessionId) {
         sessionData.remove(sessionId);

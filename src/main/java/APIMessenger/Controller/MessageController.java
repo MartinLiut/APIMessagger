@@ -6,6 +6,7 @@ import APIMessenger.Services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +27,8 @@ public class MessageController {
     MessageConverter messageConverter;
 
     @RequestMapping("/messages/")
-    public @ResponseBody ResponseEntity<List<MessageWrapper>> getAll(){
-        List<Message> messages = messageService.getAll();
+    public @ResponseBody ResponseEntity<List<MessageWrapper>> getAll(@RequestHeader("name") String username){
+        List<Message> messages = messageService.getAll(username);
         if(messages.size() > 0)
             return new ResponseEntity<List<MessageWrapper>>(this.messageConverter.listConverter(messages),HttpStatus.OK);
         else return new ResponseEntity<List<MessageWrapper>>(HttpStatus.OK);

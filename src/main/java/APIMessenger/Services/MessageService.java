@@ -30,8 +30,7 @@ public class MessageService {
         return (Message)this.messageDAO.getById(id);
     }
 
-    public List<Message> getAll(){
-        this.sessionData.getSession();
-        return this.messageDAO.getAllByUser(null);
+    public List<Message> getAll(String userName){
+        return this.messageDAO.getAllByUser(userName);
     }
 }

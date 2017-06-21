@@ -6,7 +6,6 @@ public class LoginResponse {
     @JsonProperty
     String sessionId ;
 
-
     public LoginResponse() {}
 
     public LoginResponse(String sessionId) {
