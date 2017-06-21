@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public class UserDAO extends DAO {
 
-    /*public UserDAO(Connection con){
+    public UserDAO(Connection con){
         super(con);
-    }*/
+    }
 
     public UserDAO(@Value("${db.host}") String host, @Value("${db.db}") String dbName, @Value("${db.user}") String user, @Value("${db.password}") String password) {
         super(host, dbName, user, password);
@@ -35,6 +35,12 @@ public class UserDAO extends DAO {
             return users;
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
