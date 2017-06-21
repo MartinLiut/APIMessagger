@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,8 +22,7 @@ public class AppTest
 
     public void setUp(){
         this.connection = mock(Connection.class);
-        //this.userDAO = new UserDAO(connection);
-        //this.userDAO = mock(UserDAO.class);
+        this.userDAO = new UserDAO(connection);
         this.st = mock(PreparedStatement.class);
         this.rs = mock(ResultSet.class);
     }
@@ -73,6 +73,27 @@ public class AppTest
         }
     }
 
+    public void testGetAll(){
+        try {
+            when(this.connection.prepareStatement("SELECT * FROM USERS")).thenReturn(st);
+            when(st.executeQuery()).thenReturn(rs);
+            when(rs.getString("name")).thenReturn("Martin");
+            when(rs.getString("surname")).thenReturn("Liut");
+            when(rs.getString("address")).thenReturn("Acha 2237");
+            when(rs.getString("telephone")).thenReturn("4843625");
+            when(rs.getString("city")).thenReturn("Mar del Plata");
+            when(rs.getString("province")).thenReturn("Buenos Aires");
+            when(rs.getString("country")).thenReturn("Argentina");
+            when(rs.getString("password")).thenReturn("1234");
+            when(rs.next()).thenReturn(true);
+            List<User> users = userDAO.getAll();
+            assertNull(users);
+        }
+        catch(Exception e){
+            fail();
+        }
+    }
+
     public void testGetByIdError() {
         try {
             when(this.connection.prepareStatement(anyString())).thenThrow(new Exception());
@@ -82,5 +103,15 @@ public class AppTest
             assertTrue(true);
         }
 
+    }
+
+    public void testSave(){
+        try{
+            when(connection.prepareStatement("INSERT INTO USERS (name, surname, address, telephone, city, province, country, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")).thenReturn(st);
+
+        }
+        catch(Exception e){
+            fail();
+        }
     }
 }
