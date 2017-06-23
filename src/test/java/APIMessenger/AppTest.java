@@ -4,13 +4,20 @@ import APIMessenger.Model.User;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.sql.*;
 import java.util.List;
+
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 
 public class AppTest 
     extends TestCase
@@ -21,10 +28,14 @@ public class AppTest
     UserDAO userDAO;
 
     public void setUp(){
-        this.connection = mock(Connection.class);
-        this.userDAO = new UserDAO(connection);
-        this.st = mock(PreparedStatement.class);
-        this.rs = mock(ResultSet.class);
+        try {
+            this.connection = mock(Connection.class);
+            this.userDAO = new UserDAO(connection);
+            this.st = mock(PreparedStatement.class);
+            this.rs = mock(ResultSet.class);
+        } catch(Exception e) {
+            fail();
+        }
     }
     /**
      * Create the test case
@@ -52,10 +63,6 @@ public class AppTest
         assertNotNull(connection);
     }
 
-    public void testConecction2(){
-        this.userDAO = new UserDAO("localhost", "APIMessenger", "root", "");
-        assertNotNull(userDAO);
-    }
 
     public void testGetById(){
         try {
@@ -82,9 +89,9 @@ public class AppTest
         try {
             when(this.connection.prepareStatement("SELECT * FROM USERS")).thenReturn(st);
             when(st.executeQuery()).thenReturn(rs);
-            when(rs.next()).thenReturn(true);
+            when(rs.next()).thenReturn(true).thenReturn(false);
             List<User> users = userDAO.getAll();
-            assertNull(users);
+            assertEquals(users.size(),1);
         }
         catch(Exception e){
             fail();

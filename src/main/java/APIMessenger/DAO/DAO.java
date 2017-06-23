@@ -15,20 +15,6 @@ public abstract class DAO<K> {
         this.connection = connection;
     }
 
-    public DAO(String host, String dbName, String user, String password){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+host + ":3306/", user, password);
-
-            Statement st = connection.createStatement();
-            st.execute("CREATE DATABASE IF NOT EXISTS " + dbName);
-            connection.close();
-            connection = DriverManager.getConnection("jdbc:mysql://"+host + "/" + dbName, user, password);
-        }
-        catch (Exception e){
-            System.out.print("DAO connection failed.");
-        }
-    }
 
     public abstract List<K> getAll();
     public abstract K getById(int id);

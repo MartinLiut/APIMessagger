@@ -1,8 +1,11 @@
 package APIMessenger.DAO;
 import APIMessenger.Model.Message;
 import APIMessenger.Model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -11,8 +14,10 @@ import java.util.List;
 @Repository
 public class MessageDAO extends DAO{
 
-    public MessageDAO(@Value("${db.host}") String host, @Value("${db.db}") String dbName, @Value("${db.user}") String user, @Value("${db.password}") String password){
-        super(host, dbName, user, password);
+
+    @Autowired
+    public MessageDAO(Connection connection){
+       super(connection);
     }
 
     @Override

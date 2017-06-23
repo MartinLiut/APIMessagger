@@ -13,12 +13,9 @@ import java.util.List;
 @Repository
 public class UserDAO extends DAO {
 
-    public UserDAO(Connection con){
-        super(con);
-    }
 
-    public UserDAO(@Value("${db.host}") String host, @Value("${db.db}") String dbName, @Value("${db.user}") String user, @Value("${db.password}") String password) {
-        super(host, dbName, user, password);
+    public UserDAO(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -26,7 +23,7 @@ public class UserDAO extends DAO {
         try {
             String q = "SELECT * FROM USERS";
             PreparedStatement st = this.connection.prepareStatement(q);
-            ResultSet rs = st.executeQuery(q);
+            ResultSet rs = st.executeQuery();
             List<User> users = new ArrayList<User>();
             while (rs.next()) {
                 User u = new User(rs.getString("name"), rs.getString("surname"), rs.getString("address"), rs.getString("telephone"), rs.getString("city"), rs.getString("province"), rs.getString("country"), rs.getString("password"));

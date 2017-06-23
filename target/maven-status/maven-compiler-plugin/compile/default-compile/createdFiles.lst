@@ -13,6 +13,7 @@ APIMessenger\Converter\UserConverter.class
 APIMessenger\Request\UserRequest.class
 APIMessenger\Controller\LoginController.class
 APIMessenger\Response\LoginResponse.class
+APIMessenger\Configuracion.class
 APIMessenger\util\SessionData.class
 APIMessenger\Services\UserService.class
 APIMessenger\Converter\MessageConverter.class
