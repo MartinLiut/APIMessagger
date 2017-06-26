@@ -11,6 +11,18 @@ public class User {
     private String province;
     private String password;
 
+    public User(int id, String name, String surname, String address, String telephone, String city, String province, String country, String password){
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.telephone = telephone;
+        this.city = city;
+        this.province = province;
+        this.country = country;
+        this.password = password;
+    }
+
     public User(String name, String surname, String address, String telephone, String city, String province, String country, String password){
         this.name = name;
         this.surname = surname;

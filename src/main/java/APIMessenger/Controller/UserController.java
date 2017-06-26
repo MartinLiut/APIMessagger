@@ -37,12 +37,20 @@ public class UserController {
             return new ResponseEntity<UserWrapper>(HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "/users/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<UserWrapper>> getByName(@RequestParam("name") String name){
+        List<User> users = userService.getByName(name);
+        if(users != null)
+            return new ResponseEntity<List<UserWrapper>>(userConverter.listConverter(users), HttpStatus.OK);
+        else
+            return new ResponseEntity<List<UserWrapper>>(HttpStatus.NOT_FOUND);
+    }
+
     @RequestMapping("/users/")
     public @ResponseBody ResponseEntity<List<UserWrapper>> getAll(){
         List<User> users = userService.getAll();
-        if(users.size() > 0){
+        if(users != null)
             return new ResponseEntity<List<UserWrapper>>(userConverter.listConverter(users), HttpStatus.OK);
-        }
         else
             return new ResponseEntity<List<UserWrapper>>(HttpStatus.NOT_FOUND);
     }

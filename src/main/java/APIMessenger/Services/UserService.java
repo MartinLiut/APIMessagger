@@ -23,6 +23,10 @@ public class UserService {
         return (User) userDAO.getById(id);
     }
 
+    public List<User> getByName(String name){
+        return userDAO.getByName(name);
+    }
+
     public void newUser(String name, String surname, String address, String telephone,  String city, String province, String country, String password){
         User user = new User(name, surname, address, telephone, city, province, country, password);
         this.userDAO.save(user);

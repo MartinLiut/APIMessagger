@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationData {
 
-    private static User user;
+    private User user;
     private DateTime lastAction;
 
     public DateTime getLastAction() {

@@ -1,9 +1,6 @@
 package APIMessenger.DAO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -14,7 +11,6 @@ public abstract class DAO<K> {
     public DAO(Connection connection){
         this.connection = connection;
     }
-
 
     public abstract List<K> getAll();
     public abstract K getById(int id);

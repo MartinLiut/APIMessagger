@@ -1,10 +1,6 @@
 package APIMessenger.DAO;
 import APIMessenger.Model.Message;
-import APIMessenger.Model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,8 +10,6 @@ import java.util.List;
 @Repository
 public class MessageDAO extends DAO{
 
-
-    @Autowired
     public MessageDAO(Connection connection){
        super(connection);
     }
@@ -25,11 +19,11 @@ public class MessageDAO extends DAO{
         return null;
     }
 
-    public List getAllByUser(String userName){
+    public List getAllByUser(int userId){
         try {
-            String q = "SELECT * FROM MESSAGES M JOIN USERS U ON M.id_sender = U.id INNER JOIN USERS U2 ON M.id_receiver = U2.id WHERE U.name = ? AND M.deleted = 0";
+            String q = "SELECT * FROM MESSAGES M JOIN USERS U ON M.id_sender = U.id INNER JOIN USERS U2 ON M.id_receiver = U2.id WHERE U.id = ?";
             PreparedStatement st = this.connection.prepareStatement(q);
-            st.setString(1, userName);
+            st.setInt(1, userId);
             ResultSet rs = st.executeQuery();
             List<Message> messages = new ArrayList<Message>();
             while(rs.next()){
@@ -40,13 +34,62 @@ public class MessageDAO extends DAO{
         catch (Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                this.connection.close();
+        return null;
+    }
+
+    public List getAllSent(int userId){
+        try {
+            String q = "SELECT * FROM MESSAGES M JOIN USERS U ON M.id_sender = U.id WHERE U.id = ? AND M.id_sender = ? AND M.deleted = 0";
+            PreparedStatement st = this.connection.prepareStatement(q);
+            st.setInt(1, userId);
+            st.setInt(2, userId);
+            ResultSet rs = st.executeQuery();
+            List<Message> messages = new ArrayList<Message>();
+            while(rs.next()){
+                messages.add(new Message(rs.getInt("id_sender"), rs.getInt("id_receiver"), rs.getString("issue"), rs.getString("message"), rs.getDate("date")));
             }
-            catch (Exception e){
-                e.printStackTrace();
+            return messages;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List getAllReceived(int userId){
+        try {
+            String q = "SELECT * FROM MESSAGES M JOIN users U2 ON U2.id = M.id_receiver WHERE U2.id = ? AND M.id_receiver = ? AND M.deleted = 0";
+            PreparedStatement st = this.connection.prepareStatement(q);
+            st.setInt(1, userId);
+            st.setInt(2, userId);
+            ResultSet rs = st.executeQuery();
+            List<Message> messages = new ArrayList<Message>();
+            while(rs.next()){
+                messages.add(new Message(rs.getInt("id_sender"), rs.getInt("id_receiver"), rs.getString("issue"), rs.getString("message"), rs.getDate("date")));
             }
+            return messages;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List getAllEliminated(int userId){
+        try {
+            String q = "SELECT * FROM MESSAGES M JOIN USERS U ON M.id_sender = U.id WHERE U.id = ? AND M.id_sender = ? AND M.deleted = 1";
+            PreparedStatement st = this.connection.prepareStatement(q);
+            st.setInt(1, userId);
+            st.setInt(2, userId);
+            ResultSet rs = st.executeQuery();
+            List<Message> messages = new ArrayList<Message>();
+            while(rs.next()){
+                messages.add(new Message(rs.getInt("id_sender"), rs.getInt("id_receiver"), rs.getString("issue"), rs.getString("message"), rs.getDate("date")));
+            }
+            return messages;
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         return null;
     }
@@ -71,14 +114,6 @@ public class MessageDAO extends DAO{
         catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try{
-                this.connection.close();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
@@ -91,14 +126,6 @@ public class MessageDAO extends DAO{
         }
         catch(Exception e){
             e.printStackTrace();
-        }
-        finally {
-            try{
-                this.connection.close();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
         }
     }
 }

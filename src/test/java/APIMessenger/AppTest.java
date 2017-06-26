@@ -4,16 +4,8 @@ import APIMessenger.Model.User;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
 import java.sql.*;
 import java.util.List;
-
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -98,10 +90,23 @@ public class AppTest
         }
     }
 
+    public void testGetAllError(){
+        try {
+            when(this.connection.prepareStatement(anyString())).thenThrow(new Exception());
+            //when(st.executeQuery()).thenReturn(rs);
+            //when(rs.next()).thenReturn(false);
+            List<User> users = userDAO.getAll();
+            fail();
+        }
+        catch(Exception e){
+            assertTrue(true);
+        }
+    }
+
     public void testGetByIdError() {
         try {
             when(this.connection.prepareStatement(anyString())).thenThrow(new Exception());
-            User user = (User)userDAO.getById(10);
+            User user = (User)userDAO.getById(999);
             fail();
         } catch (Exception e) {
             assertTrue(true);

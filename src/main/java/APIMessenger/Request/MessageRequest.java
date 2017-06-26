@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class MessageRequest {
     @JsonProperty("idSender") private int idSender;
-    @JsonProperty("idSender") private int idReceiver;
-    @JsonProperty("issue") private int issue;
-    @JsonProperty("message") private int message;
+    @JsonProperty("idReceiver") private int idReceiver;
+    @JsonProperty("issue") private String issue;
+    @JsonProperty("message") private String message;
     @JsonProperty("date") private Date date;
 
     public int getIdSender() {
@@ -25,19 +25,19 @@ public class MessageRequest {
         this.idReceiver = idReceiver;
     }
 
-    public int getIssue() {
+    public String getIssue() {
         return issue;
     }
 
-    public void setIssue(int issue) {
+    public void setIssue(String issue) {
         this.issue = issue;
     }
 
-    public int getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(int message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 

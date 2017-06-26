@@ -12,8 +12,6 @@ import java.util.List;
 public class MessageService {
     @Autowired
     MessageDAO messageDAO;
-    @Autowired
-    SessionData sessionData;
 
     public MessageService(){}
 
@@ -30,7 +28,19 @@ public class MessageService {
         return (Message)this.messageDAO.getById(id);
     }
 
-    public List<Message> getAll(String userName){
-        return this.messageDAO.getAllByUser(userName);
+    public List<Message> getAll(int userId){
+        return this.messageDAO.getAllByUser(userId);
+    }
+
+    public List<Message> getAllSent(int userId){
+        return this.messageDAO.getAllSent(userId);
+    }
+
+    public List<Message> getAllReceived(int userId){
+        return this.messageDAO.getAllReceived(userId);
+    }
+
+    public List<Message> getAllEliminated(int userId){
+        return this.messageDAO.getAllEliminated(userId);
     }
 }

@@ -3,6 +3,7 @@ import APIMessenger.Model.User;
 import APIMessenger.Response.LoginResponse;
 import APIMessenger.Response.UserWrapper;
 import APIMessenger.Services.UserService;
+import APIMessenger.util.AuthenticationData;
 import APIMessenger.util.SessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AuthenticationData aData;
 
     @RequestMapping(value = "/login/", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<LoginResponse> login(@RequestParam("name") String name, @RequestParam("password") String password){

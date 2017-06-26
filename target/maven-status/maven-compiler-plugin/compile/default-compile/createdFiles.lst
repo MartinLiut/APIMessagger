@@ -8,7 +8,6 @@ APIMessenger\Services\MessageService.class
 APIMessenger\DAO\DAO.class
 APIMessenger\Controller\UserController.class
 APIMessenger\Model\Message.class
-APIMessenger\Model\Inbox.class
 APIMessenger\Converter\UserConverter.class
 APIMessenger\Request\UserRequest.class
 APIMessenger\Controller\LoginController.class
